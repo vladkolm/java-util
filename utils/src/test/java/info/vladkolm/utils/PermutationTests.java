@@ -3,7 +3,9 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class PermutationTests
 {
@@ -106,14 +108,11 @@ public class PermutationTests
     @Test
     public void TestExample() {
         //This is an example of usage, so no assertion here
-        int number = 1;
-        int size = 3;
-        //Calculate size factorial
-        int numberOfPermutations = IntStream.rangeClosed(2, size).reduce(1, (x, y) -> x * y);
+        Permutation p = Permutation.create(3);
+        int numberOfPermutations = p.getNumberOfPermutations().intValue();
 
-        Permutation p = Permutation.create(size);
-        for(int start = p.first(); number<=numberOfPermutations; start = p.next(start)) {
-            System.out.println(number++ + " " +p);
+        for(int start = p.first(); p.getPermutationNumber().intValue()<=numberOfPermutations; start = p.next(start)) {
+            System.out.println(p.getPermutationNumber().intValue() + " " +p);
         }
 
     }

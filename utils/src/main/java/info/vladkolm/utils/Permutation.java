@@ -1,6 +1,8 @@
 package info.vladkolm.utils;
 
+import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * Class produces all permutations of given dimension starting of [1,2,3,4,...]
@@ -13,17 +15,30 @@ import java.util.Arrays;
  */
 public class Permutation {
     private int [] data;
+    private BigInteger numberOfPermutations;
+    private BigInteger permutationNumber;
 
     public static Permutation create(int size) {
         return new Permutation(size);
     }
 
     Permutation(int size) {
+        numberOfPermutations = factorial(size);
+        permutationNumber = BigInteger.ONE;
         data = new int[size];
         for(int index=0; index<size; index++) {
             data[index] = index;
         }
     }
+
+    public BigInteger getNumberOfPermutations() {
+        return numberOfPermutations;
+    }
+
+    public BigInteger getPermutationNumber() {
+        return permutationNumber;
+    }
+
     Permutation(int [] array) {
         data = Arrays.copyOf(array, array.length);
     }
@@ -51,6 +66,7 @@ public class Permutation {
     }
 
     public int next(int firstIndex) {
+        permutationNumber = permutationNumber.add(BigInteger.ONE);
         if(firstIndex <0) return -1;
         int lastIndex = last(firstIndex);
         if(lastIndex <0) return -1;
@@ -97,4 +113,9 @@ public class Permutation {
                 "data=" + Arrays.toString(data) +
                 '}';
     }
+
+    private static BigInteger factorial(int n) {
+        return Stream.iterate (BigInteger.ONE, i -> i.add(BigInteger.ONE)).limit(n).reduce(BigInteger.ONE, BigInteger::multiply);
+    }
+
 }
