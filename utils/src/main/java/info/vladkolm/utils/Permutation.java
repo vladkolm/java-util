@@ -1,5 +1,6 @@
 package info.vladkolm.utils;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -15,8 +16,8 @@ import java.util.stream.Stream;
  */
 public class Permutation {
     private int [] data;
-    private BigInteger numberOfPermutations;
-    private BigInteger permutationNumber;
+    private BigInteger numberOfPermutations = BigInteger.ZERO;
+    private BigInteger permutationNumber = BigInteger.ZERO;
 
     public static Permutation create(int size) {
         return new Permutation(size);
@@ -31,10 +32,12 @@ public class Permutation {
         }
     }
 
+    @NotNull
     public BigInteger getNumberOfPermutations() {
         return numberOfPermutations;
     }
 
+    @NotNull
     public BigInteger getPermutationNumber() {
         return permutationNumber;
     }

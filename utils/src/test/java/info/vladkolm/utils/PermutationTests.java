@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -112,9 +113,28 @@ public class PermutationTests
         int numberOfPermutations = p.getNumberOfPermutations().intValue();
 
         for(int start = p.first(); p.getPermutationNumber().intValue()<=numberOfPermutations; start = p.next(start)) {
-            System.out.println(p.getPermutationNumber().intValue() + " " +p);
+            System.out.println(p.getPermutationNumber().intValue() + " " +p+", start: "+start);
         }
 
     }
+    @Test
+    public void TestExample2() {
+        //This is an example of usage, so no assertion here
+        Permutations permutations = Permutations.create(3);
+        Iterator<Permutation> it=permutations.iterator();
+        while(it.hasNext()) {
+            Permutation p = it.next();
+            System.out.println(p.getPermutationNumber().intValue() + " " +p);
+        }
+    }
 
+    @Test
+    public void TestExample3() {
+        //This is an example of usage, so no assertion here
+        Permutations permutations = Permutations.create(4);
+        for(Permutation perm: permutations) {
+            System.out.println(perm.getPermutationNumber().intValue() + " " + perm);
+        }
+    }
 }
+
