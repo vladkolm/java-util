@@ -3,6 +3,8 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.IntStream;
+
 public class PermutationTests
 {
     public static boolean compare(int []x, int[] y) {
@@ -101,8 +103,19 @@ public class PermutationTests
         Assertions.assertTrue(compare(new int[]{2, 0, 1}, p.toArray()));
     }
 
+    @Test
+    public void TestExample() {
+        //This is an example of usage, so no assertion here
+        int number = 1;
+        int size = 3;
+        //Calculate size factorial
+        int numberOfPermutations = IntStream.rangeClosed(2, size).reduce(1, (x, y) -> x * y);
 
+        Permutation p = Permutation.create(size);
+        for(int start = p.first(); number<=numberOfPermutations; start = p.next(start)) {
+            System.out.println(number++ + " " +p);
+        }
 
-
+    }
 
 }

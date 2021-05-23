@@ -2,6 +2,15 @@ package info.vladkolm.utils;
 
 import java.util.Arrays;
 
+/**
+ * Class produces all permutations of given dimension starting of [1,2,3,4,...]
+ * Example of usage:
+ *  int number = 1;
+ *  Permutation p = Permutation.create(3);
+ *  for(int start = p.first(); number<7; start = p.next(start)) {
+ *      System.out.println(number++ + " " +p);
+ *  }
+ */
 public class Permutation {
     private int [] data;
 
