@@ -1,6 +1,5 @@
 package info.vladkolm.utils;
 
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -32,12 +31,24 @@ public class Permutation {
         }
     }
 
-    @NotNull
+    public  Permutation clone() {
+        return new Permutation(data);
+    }
+
+    public boolean lessThen(Permutation other) {
+        if(size() != other.size()) throw new IllegalArgumentException();
+        for(int i=0; i<size(); i++) {
+            if(get(i) == other.get(i)) continue;
+            return get(i) < other.get(i);
+        }
+        return false;
+    }
+
+
     public BigInteger getNumberOfPermutations() {
         return numberOfPermutations;
     }
 
-    @NotNull
     public BigInteger getPermutationNumber() {
         return permutationNumber;
     }
@@ -110,15 +121,17 @@ public class Permutation {
         }
     }
 
+    private static BigInteger factorial(int n) {
+        return Stream.iterate(BigInteger.ONE, i -> i.add(BigInteger.ONE))
+                .limit(n)
+                .reduce(BigInteger.ONE, BigInteger::multiply);
+    }
+
     @Override
     public String toString() {
         return "Permutation{" +
                 "data=" + Arrays.toString(data) +
                 '}';
-    }
-
-    private static BigInteger factorial(int n) {
-        return Stream.iterate (BigInteger.ONE, i -> i.add(BigInteger.ONE)).limit(n).reduce(BigInteger.ONE, BigInteger::multiply);
     }
 
 }

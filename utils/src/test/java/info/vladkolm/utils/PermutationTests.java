@@ -3,21 +3,8 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
-import java.util.Iterator;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 public class PermutationTests
 {
-    public static boolean compare(int []x, int[] y) {
-        if(x.length != y.length) return false;
-        for(int i=0; i<x.length; i++) {
-            if(x[i] != y[i]) return false;
-        }
-        return true;
-    }
-
     @Test
     public void testConstructor()
     {
@@ -26,6 +13,14 @@ public class PermutationTests
         for(int i=0; i<p.size(); i++) {
             Assertions.assertEquals(i, p.get(i));
         }
+    }
+
+    @Test
+    public void testClone()
+    {
+        Permutation p1 = new Permutation(4);
+        Permutation p2 = p1.clone();
+        Assertions.assertArrayEquals(p1.toArray(), p2.toArray());
     }
 
     @Test
@@ -85,10 +80,10 @@ public class PermutationTests
         int lastIndex = p.last(firstIndex);
         Assertions.assertEquals(2, lastIndex);
         p.swap(0, 2);
-        Assertions.assertTrue(compare(new int[]{1, 2, 0}, p.toArray()));
+        Assertions.assertArrayEquals(new int[]{1, 2, 0}, p.toArray());
 
         p.orderFromIndex(firstIndex+1);
-        Assertions.assertTrue(compare(new int[]{1, 0, 2}, p.toArray()));
+        Assertions.assertArrayEquals(new int[]{1, 0, 2}, p.toArray());
     }
 
     @Test
@@ -100,14 +95,14 @@ public class PermutationTests
         int lastIndex = p.last(firstIndex);
         Assertions.assertEquals(1, lastIndex);
         p.swap(firstIndex, lastIndex);
-        Assertions.assertTrue(compare(new int[]{2, 1, 0}, p.toArray()));
+        Assertions.assertArrayEquals(new int[]{2, 1, 0}, p.toArray());
 
         p.orderFromIndex(firstIndex+1);
-        Assertions.assertTrue(compare(new int[]{2, 0, 1}, p.toArray()));
+        Assertions.assertArrayEquals(new int[]{2, 0, 1}, p.toArray());
     }
 
     @Test
-    public void TestExample() {
+    public void testExample() {
         //This is an example of usage, so no assertion here
         Permutation p = Permutation.create(3);
         int numberOfPermutations = p.getNumberOfPermutations().intValue();
@@ -117,23 +112,24 @@ public class PermutationTests
         }
 
     }
+
     @Test
-    public void TestExample2() {
-        //This is an example of usage, so no assertion here
-        Permutations permutations = Permutations.create(3);
-        Iterator<Permutation> it=permutations.iterator();
-        while(it.hasNext()) {
-            Permutation p = it.next();
-            System.out.println(p.getPermutationNumber().intValue() + " " +p);
-        }
+    public void testPermutationLess() {
+        Permutation p1 = Permutation.create(3);
+        Permutation p2 = Permutation.create(3);
+        p2.swap(1,2);
+        Assertions.assertTrue(p1.lessThen(p2));
     }
 
     @Test
-    public void TestExample3() {
-        //This is an example of usage, so no assertion here
+    public void testEnumerations_CorrectOrder() {
         Permutations permutations = Permutations.create(4);
+        Permutation prev = null;
         for(Permutation perm: permutations) {
-            System.out.println(perm.getPermutationNumber().intValue() + " " + perm);
+            if(prev != null) {
+                Assertions.assertTrue(prev.lessThen(perm));
+            }
+            prev = perm.clone();
         }
     }
 }
