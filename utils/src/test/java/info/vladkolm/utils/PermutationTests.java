@@ -25,7 +25,7 @@ public class PermutationTests
     }
 
     @Test
-    public void testClone()
+    public void testCopy()
     {
         Permutation p1 = new Permutation(4);
         Permutation p2 = p1.copy();
