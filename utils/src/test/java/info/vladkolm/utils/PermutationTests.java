@@ -3,6 +3,8 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.stream.Stream;
 import static java.util.Spliterator.IMMUTABLE;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.StreamSupport.stream;
+import static org.junit.jupiter.params.provider.Arguments.of;
 
 public class PermutationTests
 {
@@ -126,8 +129,15 @@ public class PermutationTests
         }
     }
 
+    //https://www.baeldung.com/parameterized-tests-junit-5
+
+    private static Stream<Arguments> argumentStream() {
+        return Stream.of(of(3), of(4), of(5), of(6), of(7), of(8) );
+    }
+
     @ParameterizedTest
-    @ValueSource(ints = {3, 4, 5, 6, 7, 8})
+    //@ValueSource(ints = {3, 4, 5, 6, 7, 8})
+    @MethodSource("argumentStream")
     public void testEnumerations_CorrectOrder_Parametrized(int size) {
         Permutations permutations = Permutations.create(size);
         int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
@@ -140,7 +150,7 @@ public class PermutationTests
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3, 4, 5, 6, 7, 8})
+    @MethodSource("argumentStream")
     public void testEnumerations_Stream(int size) {
         Permutations permutations = Permutations.create(size);
         Stream<Permutation> stream = stream(spliteratorUnknownSize(permutations.iterator(), IMMUTABLE), false);
