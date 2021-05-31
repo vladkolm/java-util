@@ -129,14 +129,15 @@ public class PermutationTests
         }
     }
 
-    //https://www.baeldung.com/parameterized-tests-junit-5
+    // Ali Dehghani (Baeldung). Guide to JUnit 5 Parameterized Tests
+    // https://www.baeldung.com/parameterized-tests-junit-5
 
     private static Stream<Arguments> argumentStream() {
         return Stream.of(of(3), of(4), of(5), of(6), of(7), of(8) );
     }
 
     @ParameterizedTest
-    //@ValueSource(ints = {3, 4, 5, 6, 7, 8})
+    //Another approach is:  @ValueSource(ints = {3, 4, 5, 6, 7, 8})
     @MethodSource("argumentStream")
     public void testEnumerations_CorrectOrder_Parametrized(int size) {
         Permutations permutations = Permutations.create(size);
