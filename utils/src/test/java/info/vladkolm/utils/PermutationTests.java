@@ -2,7 +2,10 @@ package info.vladkolm.utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -118,28 +121,23 @@ public class PermutationTests
         Assertions.assertTrue(Permutations.lessThen(p1, p2));
     }
 
-    void generateAndTestPermutations(int size) {
-        Permutations permutations = create(size);
-        int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
-        Permutation prev = null;
-        int permCount = 0;
-        for(Permutation perm: permutations) {
-            if(prev != null) {
-                Assertions.assertTrue(Permutations.lessThen(prev, perm));
-            }
-            prev = perm.copy();
-            permCount++;
+    private static void assertCorrectOrder(List<Permutation> permList) {
+        for(int i = 1; i< permList.size(); i++) {
+            Assertions.assertTrue(Permutations.lessThen(permList.get(i-1), permList.get(i)));
         }
-        Assertions.assertEquals(numberOfPermutations, permCount);
     }
 
-    @Test
-    public void testEnumerations_CorrectOrder_FourElementPermutation() {
-        generateAndTestPermutations(4);
-    }
-    @Test
-    public void testEnumerations_CorrectOrder_FiveElementPermutation() {
-        generateAndTestPermutations(5);
+    @ParameterizedTest
+    @ValueSource(ints = {3, 4, 5, 6, 7, 8})
+    public void testEnumerations_CorrectOrder_Parametrized(int size) {
+        Permutations permutations = create(size);
+        int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
+        List<Permutation> permList = new ArrayList<>();
+        for(Permutation perm: permutations) {
+            permList.add(perm.copy());
+        }
+        Assertions.assertEquals(numberOfPermutations, permList.size());
+        assertCorrectOrder(permList);
     }
 
     @Test
@@ -147,10 +145,9 @@ public class PermutationTests
         Stream<Permutation> stream = stream(spliteratorUnknownSize(create(3).iterator(), IMMUTABLE), false);
         List<Permutation> permList = stream.map(Permutation::copy).collect(Collectors.toList());
         Assertions.assertEquals(MathEx.factorial(create(3).size()).intValue(), permList.size());
-        for(int i=1; i<permList.size(); i++) {
-            Assertions.assertTrue(Permutations.lessThen(permList.get(i-1), permList.get(i)));
-        }
+        assertCorrectOrder(permList);
     }
+
 
 }
 
