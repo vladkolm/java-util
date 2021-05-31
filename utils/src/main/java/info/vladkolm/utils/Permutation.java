@@ -54,11 +54,17 @@ public class Permutation {
     public boolean next() {
         int index =  findIndexForNextPermutation();
         if(index == -1) return false;
-        swap(index, swapIndex(index));
+        swap(index, findSwapIndex(index));
         reverseDataAfterIndex(index+1);
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Permutation{" +
+                "data=" + Arrays.toString(data) +
+                '}';
+    }
 
     int findIndexForNextPermutation() {
         for (int i = size()-1; i >0; i--) {
@@ -67,12 +73,11 @@ public class Permutation {
         return -1;
     }
 
-    int swapIndex(int index) {
+    int findSwapIndex(int index) {
         for (int i = data.length - 1; i > index; i--) {
             if (data[i]> data[index]) return i;
         }
         return index;
-
     }
 
     // Swaps two data elements with given indices
@@ -90,12 +95,4 @@ public class Permutation {
             swap(index+i, last-i);
         }
     }
-
-    @Override
-    public String toString() {
-        return "Permutation{" +
-                "data=" + Arrays.toString(data) +
-                '}';
-    }
-
 }

@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class PermutationTests
     {
         Permutation p = new Permutation(3);
         int indexForNextPermutation = p.findIndexForNextPermutation();
-        int lastIndex = p.swapIndex(indexForNextPermutation);
+        int lastIndex = p.findSwapIndex(indexForNextPermutation);
         Assertions.assertEquals(1, indexForNextPermutation);
         Assertions.assertEquals(2, lastIndex);
     }
@@ -80,7 +79,7 @@ public class PermutationTests
     {
         Permutation p = new Permutation(4);
         int indexForNextPermutation = p.findIndexForNextPermutation();
-        int lastIndex = p.swapIndex(indexForNextPermutation);
+        int lastIndex = p.findSwapIndex(indexForNextPermutation);
         Assertions.assertEquals(2, indexForNextPermutation);
         Assertions.assertEquals(3, lastIndex);
     }
@@ -91,7 +90,7 @@ public class PermutationTests
         Permutation p = new Permutation(new int[]{0, 2, 1});
         int indexForNextPermutation = p.findIndexForNextPermutation();
         Assertions.assertEquals(0, indexForNextPermutation);
-        int swapIndex = p.swapIndex(indexForNextPermutation);
+        int swapIndex = p.findSwapIndex(indexForNextPermutation);
         Assertions.assertEquals(2, swapIndex);
         p.swap(0, 2);
         Assertions.assertArrayEquals(new int[]{1, 2, 0}, p.toArray());
@@ -106,7 +105,7 @@ public class PermutationTests
         Permutation p = new Permutation(new int[]{1, 2, 0});
         int indexForNextPermutation = p.findIndexForNextPermutation();
         Assertions.assertEquals(0, indexForNextPermutation);
-        int swapIndex = p.swapIndex(indexForNextPermutation);
+        int swapIndex = p.findSwapIndex(indexForNextPermutation);
         Assertions.assertEquals(1, swapIndex);
         p.swap(indexForNextPermutation, swapIndex);
         Assertions.assertArrayEquals(new int[]{2, 1, 0}, p.toArray());
