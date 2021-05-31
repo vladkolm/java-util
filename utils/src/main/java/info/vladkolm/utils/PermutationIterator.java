@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 public class PermutationIterator implements Iterator<Permutation> {
     private Permutation permutation;
-    private int start;
     private int size;
 
     public PermutationIterator(int size) {
