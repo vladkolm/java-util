@@ -1,7 +1,5 @@
 package info.vladkolm.utils;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
