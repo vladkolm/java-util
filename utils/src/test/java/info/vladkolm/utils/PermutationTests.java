@@ -3,13 +3,9 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static info.vladkolm.utils.Permutations.create;
 import static java.util.Spliterator.IMMUTABLE;
@@ -124,7 +120,7 @@ public class PermutationTests
 
     void generateAndTestPermutations(int size) {
         Permutations permutations = create(size);
-        int numberOfPermutations = MathEx.factorial(permutations.getSize()).intValue();
+        int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
         Permutation prev = null;
         int permCount = 0;
         for(Permutation perm: permutations) {
@@ -150,7 +146,7 @@ public class PermutationTests
     public void testEnumerations_Stream() {
         Stream<Permutation> stream = stream(spliteratorUnknownSize(create(3).iterator(), IMMUTABLE), false);
         List<Permutation> permList = stream.map(Permutation::copy).collect(Collectors.toList());
-        Assertions.assertEquals(MathEx.factorial(create(3).getSize()).intValue(), permList.size());
+        Assertions.assertEquals(MathEx.factorial(create(3).size()).intValue(), permList.size());
         for(int i=1; i<permList.size(); i++) {
             Assertions.assertTrue(Permutations.lessThen(permList.get(i-1), permList.get(i)));
         }

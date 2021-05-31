@@ -15,7 +15,7 @@ public class Permutations  implements Iterable<Permutation> {
         this.size = size;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
