@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static info.vladkolm.utils.Permutations.create;
 import static java.util.Spliterator.IMMUTABLE;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.StreamSupport.stream;
@@ -130,7 +129,7 @@ public class PermutationTests
     @ParameterizedTest
     @ValueSource(ints = {3, 4, 5, 6, 7, 8})
     public void testEnumerations_CorrectOrder_Parametrized(int size) {
-        Permutations permutations = create(size);
+        Permutations permutations = Permutations.create(size);
         int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
         List<Permutation> permList = new ArrayList<>();
         for(Permutation perm: permutations) {
@@ -142,10 +141,11 @@ public class PermutationTests
 
     @ParameterizedTest
     @ValueSource(ints = {3, 4, 5, 6, 7, 8})
-    public void testEnumerations_Stream() {
-        Stream<Permutation> stream = stream(spliteratorUnknownSize(create(3).iterator(), IMMUTABLE), false);
+    public void testEnumerations_Stream(int size) {
+        Permutations permutations = Permutations.create(size);
+        Stream<Permutation> stream = stream(spliteratorUnknownSize(permutations.iterator(), IMMUTABLE), false);
         List<Permutation> permList = stream.map(Permutation::copy).collect(Collectors.toList());
-        Assertions.assertEquals(MathEx.factorial(create(3).size()).intValue(), permList.size());
+        Assertions.assertEquals(MathEx.factorial(permutations.size()).intValue(), permList.size());
         assertCorrectOrder(permList);
     }
 
