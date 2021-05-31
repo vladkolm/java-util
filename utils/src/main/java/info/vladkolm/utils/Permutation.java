@@ -2,7 +2,16 @@ package info.vladkolm.utils;
 
 import java.util.Arrays;
 
-// See https://www.baeldung.com/java-array-permutations
+// See also https://www.baeldung.com/java-array-permutations
+
+/**
+ *  This class produces permutations in lexicographical order
+ *  Usage:
+ *    Permutations permutations = Permutations.create(size);
+ *    for(Permutation perm: permutations) {
+ *      //Do something with the permutation
+ *    }
+ */
 public class Permutation {
     private int [] data;
 
