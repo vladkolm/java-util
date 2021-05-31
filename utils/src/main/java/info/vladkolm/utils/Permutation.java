@@ -47,13 +47,6 @@ public class Permutation {
         return Arrays.copyOf(data, data.length);
     }
 
-    public int findIndexForNextPermutation() {
-        for (int i = size()-1; i >0; i--) {
-            if (data[i - 1] < data[i]) return i-1;
-        }
-        return -1;
-    }
-
     public boolean isLastPermutation() {
         return findIndexForNextPermutation() == -1;
     }
@@ -66,6 +59,13 @@ public class Permutation {
         return true;
     }
 
+
+    int findIndexForNextPermutation() {
+        for (int i = size()-1; i >0; i--) {
+            if (data[i - 1] < data[i]) return i-1;
+        }
+        return -1;
+    }
 
     int swapIndex(int index) {
         for (int i = data.length - 1; i > index; i--) {
