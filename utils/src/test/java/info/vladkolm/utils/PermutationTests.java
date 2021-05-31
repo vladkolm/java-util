@@ -3,6 +3,19 @@ package info.vladkolm.utils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import static info.vladkolm.utils.Permutations.create;
+import static java.util.Spliterator.IMMUTABLE;
+import static java.util.Spliterators.spliteratorUnknownSize;
+import static java.util.stream.StreamSupport.stream;
+
 public class PermutationTests
 {
     @Test
@@ -110,7 +123,7 @@ public class PermutationTests
     }
 
     void generateAndTestPermutations(int size) {
-        Permutations permutations = Permutations.create(size);
+        Permutations permutations = create(size);
         int numberOfPermutations = MathEx.factorial(permutations.getSize()).intValue();
         Permutation prev = null;
         int permCount = 0;
@@ -132,5 +145,16 @@ public class PermutationTests
     public void testEnumerations_CorrectOrder_FiveElementPermutation() {
         generateAndTestPermutations(5);
     }
+
+    @Test
+    public void testEnumerations_Stream() {
+        Stream<Permutation> stream = stream(spliteratorUnknownSize(create(3).iterator(), IMMUTABLE), false);
+        List<Permutation> permList = stream.map(Permutation::copy).collect(Collectors.toList());
+        Assertions.assertEquals(MathEx.factorial(create(3).getSize()).intValue(), permList.size());
+        for(int i=1; i<permList.size(); i++) {
+            Assertions.assertTrue(Permutations.lessThen(permList.get(i-1), permList.get(i)));
+        }
+    }
+
 }
 
