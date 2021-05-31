@@ -15,6 +15,20 @@ public class Permutations  implements Iterable<Permutation> {
         this.size = size;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public static boolean lessThen(Permutation p1, Permutation p2) {
+        if(p1.size() != p2.size()) throw new IllegalArgumentException();
+        for(int i=0; i<p1.size(); i++) {
+            if(p1.get(i) == p2.get(i)) continue;
+            return p1.get(i) < p2.get(i);
+        }
+        return false;
+    }
+
+
     @Override
     public Iterator<Permutation> iterator() {
         return new PermutationIterator(size);

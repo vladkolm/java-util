@@ -1,7 +1,9 @@
 package info.vladkolm.utils;
 
-import java.math.BigInteger;
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class PermutationIterator implements Iterator<Permutation> {
     private Permutation permutation;
@@ -9,22 +11,23 @@ public class PermutationIterator implements Iterator<Permutation> {
     private int size;
 
     public PermutationIterator(int size) {
+        if(size <= 0) throw new IllegalArgumentException("Invalid size: " + size);
         this.size = size;
     }
 
     @Override
     public boolean hasNext() {
-        if(permutation == null && size > 0) return true;
-        return permutation.getPermutationNumber().compareTo(permutation.getNumberOfPermutations())<0;
+        if(permutation == null) return true;
+        return !permutation.isLastPermutation();
     }
 
     @Override
     public Permutation next() {
         if(permutation == null) {
             permutation = Permutation.create(size);
-            start = permutation.first();
         } else {
-            start = permutation.next(start);
+            if(permutation.isLastPermutation()) throw new NoSuchElementException();
+            permutation.next();
         }
         return permutation;
     }

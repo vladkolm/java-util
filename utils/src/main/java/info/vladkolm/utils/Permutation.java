@@ -1,56 +1,24 @@
 package info.vladkolm.utils;
 
-import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.stream.Stream;
 
-/**
- * Class produces all permutations of given dimension starting of [1,2,3,4,...]
- * Example of usage:
- *  int number = 1;
- *  Permutation p = Permutation.create(3);
- *  for(int start = p.first(); number<7; start = p.next(start)) {
- *      System.out.println(number++ + " " +p);
- *  }
- */
+// See https://www.baeldung.com/java-array-permutations
 public class Permutation {
     private int [] data;
-    private BigInteger numberOfPermutations = BigInteger.ZERO;
-    private BigInteger permutationNumber = BigInteger.ZERO;
 
     public static Permutation create(int size) {
         return new Permutation(size);
     }
 
     Permutation(int size) {
-        numberOfPermutations = factorial(size);
-        permutationNumber = BigInteger.ONE;
         data = new int[size];
         for(int index=0; index<size; index++) {
             data[index] = index;
         }
     }
 
-    public  Permutation clone() {
+    public  Permutation copy() {
         return new Permutation(data);
-    }
-
-    public boolean lessThen(Permutation other) {
-        if(size() != other.size()) throw new IllegalArgumentException();
-        for(int i=0; i<size(); i++) {
-            if(get(i) == other.get(i)) continue;
-            return get(i) < other.get(i);
-        }
-        return false;
-    }
-
-
-    public BigInteger getNumberOfPermutations() {
-        return numberOfPermutations;
-    }
-
-    public BigInteger getPermutationNumber() {
-        return permutationNumber;
     }
 
     Permutation(int [] array) {
@@ -70,61 +38,48 @@ public class Permutation {
         return Arrays.copyOf(data, data.length);
     }
 
-    public int first() {
-        if(size() > 1) {
-            for (int i = size()-1; i >0; i--) {
-                if (data[i - 1] < data[i]) return i-1;
-            }
+    public int findIndexForNextPermutation() {
+        for (int i = size()-1; i >0; i--) {
+            if (data[i - 1] < data[i]) return i-1;
         }
         return -1;
     }
 
-    public int next(int firstIndex) {
-        permutationNumber = permutationNumber.add(BigInteger.ONE);
-        if(firstIndex <0) return -1;
-        int lastIndex = last(firstIndex);
-        if(lastIndex <0) return -1;
-        swap(firstIndex, lastIndex);
-        orderFromIndex(firstIndex+1);
-        return first();
+    public boolean isLastPermutation() {
+        return findIndexForNextPermutation() == -1;
+    }
+
+    public boolean next() {
+        int index =  findIndexForNextPermutation();
+        if(index == -1) return false;
+        swap(index, swapIndex(index));
+        reverseDataAfterIndex(index+1);
+        return true;
     }
 
 
-    int last(int firstIndex) {
-        if(size() > 1) {
-            int element = data[firstIndex];
-            int min = -1;
-            for (int i = firstIndex+1; i < size(); i++) {
-               if(data[i] > element) {
-                   if(min < 0) min = i;
-                   if(data[i] < data[min]) min = i;
-               }
-            }
-            if(size() != min) return min;
+    int swapIndex(int index) {
+        for (int i = data.length - 1; i > index; i--) {
+            if (data[i]> data[index]) return i;
         }
-        return -1;
+        return index;
+
     }
 
+    // Swaps two data elements with given indices
     void swap(int index1, int index2) {
         int saved = data[index1];
         data[index1] = data[index2];
         data[index2] = saved;
     }
 
-    //Orders the part after (including) index
-    //This part should be ordered inversely
-    void orderFromIndex(int index) {
+    //Reverses the data-part after (including) index
+    void reverseDataAfterIndex(int index) {
         int size = (data.length - index)/2;
         int last = data.length-1;
         for(int i=0; i<size; i++) {
             swap(index+i, last-i);
         }
-    }
-
-    private static BigInteger factorial(int n) {
-        return Stream.iterate(BigInteger.ONE, i -> i.add(BigInteger.ONE))
-                .limit(n)
-                .reduce(BigInteger.ONE, BigInteger::multiply);
     }
 
     @Override
