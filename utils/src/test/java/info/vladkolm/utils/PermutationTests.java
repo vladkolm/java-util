@@ -140,7 +140,8 @@ public class PermutationTests
         assertCorrectOrder(permList);
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(ints = {3, 4, 5, 6, 7, 8})
     public void testEnumerations_Stream() {
         Stream<Permutation> stream = stream(spliteratorUnknownSize(create(3).iterator(), IMMUTABLE), false);
         List<Permutation> permList = stream.map(Permutation::copy).collect(Collectors.toList());
