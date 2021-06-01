@@ -4,9 +4,11 @@ import info.vladkolm.utils.math.MathEx;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,15 +127,18 @@ public class PermutationTests {
 
     // Ali Dehghani (Baeldung). Guide to JUnit 5 Parameterized Tests
     // https://www.baeldung.com/parameterized-tests-junit-5
-    private static final String ARGUMENT_STREAM_METHOD = "argumentStream";
 
-    private static Stream<Arguments> argumentStream() {
-        return IntStream.rangeClosed(3, 8).boxed().map(Arguments::of);
+    public static class CustomArgumentsProvider implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            return IntStream.rangeClosed(3, 8).boxed().map(Arguments::of);
+        }
     }
 
     @ParameterizedTest
     //Another approach is:  @ValueSource(ints = {3, 4, 5, 6, 7, 8})
-    @MethodSource(ARGUMENT_STREAM_METHOD)
+    //Another approach is:  @MethodSource(ARGUMENT_STREAM_METHOD)
+    @ArgumentsSource(CustomArgumentsProvider.class)
     public void testEnumerations_CorrectOrder_Parametrized(int size) {
         Permutations permutations = Permutations.create(size);
         int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
@@ -146,7 +151,7 @@ public class PermutationTests {
     }
 
     @ParameterizedTest
-    @MethodSource(ARGUMENT_STREAM_METHOD)
+    @ArgumentsSource(CustomArgumentsProvider.class)
     public void testEnumerations_Stream(int size) {
         Permutations permutations = Permutations.create(size);
         Stream<Permutation> stream = stream(spliteratorUnknownSize(permutations.iterator(), IMMUTABLE), false);
