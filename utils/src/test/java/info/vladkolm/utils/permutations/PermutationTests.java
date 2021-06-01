@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 import static java.util.Spliterator.IMMUTABLE;
 import static java.util.Spliterators.spliteratorUnknownSize;
 import static java.util.stream.StreamSupport.stream;
-import static org.junit.jupiter.params.provider.Arguments.of;
 
 public class PermutationTests {
     private static final int DEFAULT_SIZE = 3;
@@ -126,13 +125,14 @@ public class PermutationTests {
 
     // Ali Dehghani (Baeldung). Guide to JUnit 5 Parameterized Tests
     // https://www.baeldung.com/parameterized-tests-junit-5
+    private static final String ARGUMENT_STREAM_METHOD = "argumentStream";
     private static Stream<Arguments> argumentStream() {
         return IntStream.range(3, 9).boxed().map(Arguments::of);
     }
 
     @ParameterizedTest
     //Another approach is:  @ValueSource(ints = {3, 4, 5, 6, 7, 8})
-    @MethodSource("argumentStream")
+    @MethodSource(ARGUMENT_STREAM_METHOD)
     public void testEnumerations_CorrectOrder_Parametrized(int size) {
         Permutations permutations = Permutations.create(size);
         int numberOfPermutations = MathEx.factorial(permutations.size()).intValue();
@@ -145,7 +145,7 @@ public class PermutationTests {
     }
 
     @ParameterizedTest
-    @MethodSource("argumentStream")
+    @MethodSource(ARGUMENT_STREAM_METHOD)
     public void testEnumerations_Stream(int size) {
         Permutations permutations = Permutations.create(size);
         Stream<Permutation> stream = stream(spliteratorUnknownSize(permutations.iterator(), IMMUTABLE), false);
