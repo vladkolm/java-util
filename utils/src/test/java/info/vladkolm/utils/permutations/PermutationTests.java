@@ -126,6 +126,7 @@ public class PermutationTests {
     // Ali Dehghani (Baeldung). Guide to JUnit 5 Parameterized Tests
     // https://www.baeldung.com/parameterized-tests-junit-5
     private static final String ARGUMENT_STREAM_METHOD = "argumentStream";
+
     private static Stream<Arguments> argumentStream() {
         return IntStream.rangeClosed(3, 8).boxed().map(Arguments::of);
     }
