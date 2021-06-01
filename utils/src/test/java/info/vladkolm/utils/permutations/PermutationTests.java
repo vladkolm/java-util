@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Spliterator.IMMUTABLE;
@@ -125,9 +126,8 @@ public class PermutationTests {
 
     // Ali Dehghani (Baeldung). Guide to JUnit 5 Parameterized Tests
     // https://www.baeldung.com/parameterized-tests-junit-5
-
     private static Stream<Arguments> argumentStream() {
-        return Stream.of(of(3), of(4), of(5), of(6), of(7), of(8));
+        return IntStream.range(3, 9).boxed().map(Arguments::of);
     }
 
     @ParameterizedTest
