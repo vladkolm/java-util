@@ -1,5 +1,6 @@
-package info.vladkolm.utils;
+package info.vladkolm.utils.permutations;
 
+import info.vladkolm.utils.math.MathEx;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

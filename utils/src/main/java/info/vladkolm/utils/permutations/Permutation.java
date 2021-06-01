@@ -1,4 +1,4 @@
-package info.vladkolm.utils;
+package info.vladkolm.utils.permutations;
 
 import java.util.Arrays;
 

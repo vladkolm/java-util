@@ -1,4 +1,4 @@
-package info.vladkolm.utils;
+package info.vladkolm.utils.override;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;

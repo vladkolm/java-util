@@ -1,4 +1,4 @@
-package info.vladkolm.utils;
+package info.vladkolm.utils.math;
 
 import java.math.BigInteger;
 import java.util.stream.Stream;
