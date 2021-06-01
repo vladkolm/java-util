@@ -19,19 +19,8 @@ public class Permutation {
         return new Permutation(size);
     }
 
-    Permutation(int size) {
-        data = new int[size];
-        for(int index=0; index<size; index++) {
-            data[index] = index;
-        }
-    }
-
     public  Permutation copy() {
         return new Permutation(data);
-    }
-
-    Permutation(int [] array) {
-        data = Arrays.copyOf(array, array.length);
     }
 
     public int size() {
@@ -65,6 +54,29 @@ public class Permutation {
                 "data=" + Arrays.toString(data) +
                 '}';
     }
+
+    private Permutation(int size) {
+        data = new int[size];
+        for(int index=0; index<size; index++) {
+            data[index] = index;
+        }
+    }
+
+    private Permutation(int [] array) {
+        data = Arrays.copyOf(array, array.length);
+    }
+
+    public static Permutation create(int [] array) {
+        int[] ints = Arrays.copyOf(array, array.length);
+        Arrays.sort(ints);
+        for(int i=0; i<ints.length; i++) {
+            if(i != ints[i]) {
+                throw new IllegalArgumentException("Array should be a permutation of [0, 1, 2, ....length-1]");
+            }
+        }
+        return new Permutation(array);
+    }
+
 
     int findIndexForNextPermutation() {
         for (int i = size()-1; i >0; i--) {
