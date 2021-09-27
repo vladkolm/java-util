@@ -25,7 +25,7 @@ public class ExactMethodInvokeTests {
     public void testOriginalHashCode() throws Throwable {
         B b = new B();
         Method hashCodeMethod = Object.class.getMethod("hashCode");
-        Object invoke = ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
+        int invoke = (int)ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
         Assertions.assertEquals(System.identityHashCode(b), invoke);
     }
 }
