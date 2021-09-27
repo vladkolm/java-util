@@ -10,6 +10,12 @@ class MethodInfo {
         this.argTypes = method.getParameterTypes();
     }
 
+    public MethodInfo(String methodName, Class<?>[] argTypes) {
+        this.methodName = methodName;
+        this.argTypes = argTypes;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
