@@ -29,7 +29,8 @@
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.7.0</version>
             <scope>test</scope>
-        </dependency>    </dependencies>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
