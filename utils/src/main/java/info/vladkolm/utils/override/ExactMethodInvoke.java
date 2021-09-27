@@ -19,7 +19,7 @@ public class ExactMethodInvoke {
     private static Lookup getLookup(Class<?> objClass) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException {
         Lookup rootLookup = MethodHandles.lookup();
         try {
-            //This should work starting from JDK-9
+            //This should work starting from JDK-9 and higher
             //call MethodHandles.privateLookupIn(objClass, rootLookup) through reflection
             Method privateLookupMethod = MethodHandles.class.getMethod("privateLookupIn", Class.class, Lookup.class);
             return (Lookup)privateLookupMethod.invoke(null, objClass, rootLookup);
