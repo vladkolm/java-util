@@ -17,9 +17,13 @@ public class StaticProxy {
                     if(checkMethod(method)) {
                         String checkedMethodName = (String) args[1];
                         Class<?> [] paramsClasses = (Class<?>[]) args[2];
-                        Method classMethod = interfaceClass.getMethod(checkedMethodName, paramsClasses);
-                        MethodInfo methodInfo = new MethodInfo(classMethod);
-                        return methodMap.containsKey(methodInfo);
+                        try {
+                            Method classMethod = interfaceClass.getMethod(checkedMethodName, paramsClasses);
+                            MethodInfo methodInfo = new MethodInfo(classMethod);
+                            return methodMap.containsKey(methodInfo);
+                        } catch (NoSuchMethodException e) {
+                            return false;
+                        }
                     } else {
                         MethodInfo methodInfo = new MethodInfo(method);
                         Method classMethod = methodMap.get(methodInfo);

@@ -26,8 +26,13 @@ public class StaticProxyTests {
 
     @Test
     public void proxyInfoTest() {
-        boolean hesDoSomething = proxyInfo.contains(Testable.class, "doSomething", new Class[0]);
-        Assertions.assertTrue(hesDoSomething);
+        boolean hasMethod = proxyInfo.contains(Testable.class, "doSomething", new Class[0]);
+        Assertions.assertTrue(hasMethod);
+    }
+    @Test
+    public void proxyInfoTestNonExistingMethod() {
+        boolean hasMethod = proxyInfo.contains(Testable.class, "nonExisting", new Class[0]);
+        Assertions.assertFalse(hasMethod);
     }
 
 
