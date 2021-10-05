@@ -49,4 +49,10 @@ public class TestMethodOf {
 		method.invoke(obj, "Hello, lambda");
 		Assertions.assertEquals("The text: Hello, lambda", ClassWithMethods.msg);
 	}
+
+	@Test
+	public void testExpectException() {
+		assertThrows(ReflectUtilsException.class, () -> methodOf(() -> {}));
+	}
+
 }
