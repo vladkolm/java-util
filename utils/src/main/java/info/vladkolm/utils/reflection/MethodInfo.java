@@ -60,20 +60,20 @@ public class MethodInfo {
         return methodInfo.isSynthetic()? methodInfo.extractMethodFromLambda(): methodInfo.getImplMethod();
     }
 
-    static Method methodOf(SerializableRunnable lambda) {
+    public static Method methodOf(SerializableRunnable lambda) {
         return internalMethodOf(lambda);
     }
-    static Method methodOf(SerializableConsumer<?> lambda) {
+    public static Method methodOf(SerializableConsumer<?> lambda) {
         return internalMethodOf(lambda);
     }
 
-    static String nameOf(SerializableRunnable lambda) {
+    public static String nameOf(SerializableRunnable lambda) {
         return internalNameOf(lambda);
     }
-    static String nameOf(SerializableConsumer<?> lambda) {
+    public static String nameOf(SerializableConsumer<?> lambda) {
         return internalNameOf(lambda);
     }
-    static String nameOf(SerializableFun lambda) {
+    public static String nameOf(SerializableFun lambda) {
         return internalNameOf(lambda);
     }
 
