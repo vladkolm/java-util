@@ -55,4 +55,10 @@ public class TestMethodOf {
 		assertThrows(ReflectUtilsException.class, () -> methodOf(() -> {}));
 	}
 
+	@Test
+	public void methodOf_usingMethodReference2() {
+		Method method = methodOf(ClassWithGenericMethod::genFun2);
+		Assertions.assertEquals("genFun2", method.getName());
+	}
+
 }

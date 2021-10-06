@@ -66,6 +66,9 @@ public class MethodInfo {
     public static Method methodOf(SerializableConsumer<?> lambda) {
         return internalMethodOf(lambda);
     }
+    public static Method methodOf(SerializableFun lambda) {
+        return internalMethodOf(lambda);
+    }
 
     public static String nameOf(SerializableRunnable lambda) {
         return internalNameOf(lambda);
