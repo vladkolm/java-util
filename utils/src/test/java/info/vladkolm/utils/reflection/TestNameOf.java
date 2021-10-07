@@ -37,7 +37,7 @@ public class TestNameOf {
     }
     @Test
     public void testNameOfField() {
-        String name = nameOfField((SerializableFunction<ClassWithMethods, String>) (ClassWithMethods cwm) -> cwm.message);
+        String name = nameOfField((ClassWithMethods cwm) -> cwm.message);
         Assertions.assertEquals("message", name);
     }
 }
