@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import info.vladkolm.utils.reflection.classes.ClassWithGenericMethod;
 
 import static info.vladkolm.utils.reflection.MethodInfo.*;
+import static info.vladkolm.utils.reflection.Methods.nameOf;
 
-public class TestNameOf {
+public class TestMethods {
     @Test
     public void nameOf_usingMethodReference() {
         String name = nameOf(ClassWithGenericMethod::genFun);
@@ -28,16 +29,5 @@ public class TestNameOf {
     public void testNameOfGenericMethodAsLambda() {
         String name = nameOf(() -> ClassWithGenericMethod.genFun(""));
         Assertions.assertEquals("genFun", name);
-    }
-
-    @Test
-    public void testNameOfStaticField() {
-        String name = nameOfField(() -> ClassWithMethods.msg);
-        Assertions.assertEquals("msg", name);
-    }
-    @Test
-    public void testNameOfField() {
-        String name = nameOfField((ClassWithMethods cwm) -> cwm.message);
-        Assertions.assertEquals("message", name);
     }
 }

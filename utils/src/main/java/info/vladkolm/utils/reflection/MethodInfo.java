@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 import static info.vladkolm.utils.reflection.AsmUtils.*;
 
 // See http://stackoverflow.com/questions/23861619/how-to-read-lambda-expression-bytecode-using-asm
-public class MethodInfo {
+class MethodInfo {
     final private Class<?> implClass;
     final private Class<?> [] argTypes;
     final private Method implMethod;
@@ -28,22 +28,6 @@ public class MethodInfo {
     }
     public static Method methodOf(SerializableFun lambda) {
         return internalMethodOf(lambda);
-    }
-
-    public static String nameOf(SerializableRunnable lambda) {
-        return internalNameOf(lambda);
-    }
-    public static String nameOf(SerializableConsumer<?> lambda) {
-        return internalNameOf(lambda);
-    }
-    public static String nameOf(SerializableFun lambda) {
-        return internalNameOf(lambda);
-    }
-    public static String nameOfField(SerializableSupplier<?> lambda) {
-        return internalNameOfField(lambda);
-    }
-    public static String nameOfField(SerializableFunction<?,?> lambda) {
-        return internalNameOfField(lambda);
     }
 
 
@@ -91,10 +75,6 @@ public class MethodInfo {
     static Method internalMethodOf(Serializable lambda) {
         MethodInfo methodInfo = new MethodInfo(lambda);
         return methodInfo.isSynthetic()? methodInfo.extractMethodFromLambda(): methodInfo.getImplMethod();
-    }
-    private static String internalNameOfField(Serializable lambda) {
-        MethodInfo methodInfo = new MethodInfo(lambda);
-        return methodInfo.extractFieldNameFromLambda();
     }
 
 
