@@ -1,11 +1,11 @@
 package info.vladkolm.utils.reflection;
 
+import info.vladkolm.utils.reflection.classes.ClassWithMethods;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import info.vladkolm.utils.reflection.classes.ClassWithGenericMethod;
 
-import static info.vladkolm.utils.reflection.MethodInfo.methodOf;
-import static info.vladkolm.utils.reflection.MethodInfo.nameOf;
+import static info.vladkolm.utils.reflection.MethodInfo.*;
 
 public class TestNameOf {
     @Test
@@ -28,5 +28,16 @@ public class TestNameOf {
     public void testNameOfGenericMethodAsLambda() {
         String name = nameOf(() -> ClassWithGenericMethod.genFun(""));
         Assertions.assertEquals("genFun", name);
+    }
+
+    @Test
+    public void testNameOfStaticField() {
+        String name = nameOfField(() -> ClassWithMethods.msg);
+        Assertions.assertEquals("msg", name);
+    }
+    @Test
+    public void testNameOfField() {
+        String name = nameOfField((SerializableFunction<ClassWithMethods, String>) (ClassWithMethods cwm) -> cwm.message);
+        Assertions.assertEquals("message", name);
     }
 }

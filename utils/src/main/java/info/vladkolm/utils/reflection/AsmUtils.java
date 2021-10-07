@@ -10,11 +10,9 @@ import java.util.stream.Stream;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 
+import static org.objectweb.asm.tree.AbstractInsnNode.FIELD_INSN;
 import static org.objectweb.asm.tree.AbstractInsnNode.METHOD_INSN;
 
 
@@ -69,6 +67,13 @@ public class AsmUtils {
 		return ClassUtils.getMethod(clazz, methNode.name, getClassList(method));
 	}
 
+	public static AbstractInsnNode findFieldFromNode(MethodNode mn) {
+		OptionalInt found = findNode(mn.instructions, FIELD_INSN, false);
+		if(!found.isPresent()) {
+			throw new ReflectUtilsException("Cannot find appropriate method");
+		}
+		return mn.instructions.get(found.getAsInt());
+	}
 
     public static MethodInsnNode findMethodInstructionNode(MethodNode mn, boolean reverse) {
 		OptionalInt found = reverse? findNode(mn.instructions, METHOD_INSN, true):

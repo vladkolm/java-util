@@ -5,6 +5,8 @@ import java.util.Arrays;
 public class ClassWithMethods
 {
 	public static String msg;
+	public String message;
+
 	public void method(String text, Object obj) {
 		msg = text+obj;
 	}
@@ -13,7 +15,7 @@ public class ClassWithMethods
 		msg = "The text: "+ text;
 		return 1;
 	}
-	
+
 	public int methodWithPrimitiveParam(String text, int number) {
 		msg = "The text: "+ text+number;
 		return 1;
