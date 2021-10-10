@@ -56,6 +56,13 @@ public class TestMethodOf {
 	}
 
 	@Test
+	public void methodOf_incorrectLambda() {
+		assertThrows(ReflectUtilsException.class,
+				() -> methodOf((ClassWithMethods obj) -> {obj.method(""); obj.method("test");}));
+	}
+
+
+	@Test
 	public void methodOf_usingMethodReference2() {
 		Method method = methodOf(ClassWithGenericMethod::genFun2);
 		Assertions.assertEquals("genFun2", method.getName());

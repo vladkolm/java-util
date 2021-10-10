@@ -78,12 +78,11 @@ public class AsmUtils {
 	}
 
     public static MethodInsnNode findMethodInstructionNode(MethodNode mn, boolean reverse) {
-		OptionalInt found = reverse? findNode(mn.instructions, METHOD_INSN, true):
-				findNode(mn.instructions, METHOD_INSN, false);
-        if(!found.isPresent()) {
-            throw new ReflectUtilsException("Cannot find appropriate method");
-        }
-        return (MethodInsnNode)mn.instructions.get(found.getAsInt());
+		int[] allNodes = findAllNodes(mn.instructions, METHOD_INSN);
+		if(allNodes.length != 1) {
+			throw new ReflectUtilsException("Cannot find appropriate method");
+		}
+        return (MethodInsnNode)mn.instructions.get(allNodes[0]);
     }
 
 	private static OptionalInt findNode(InsnList instructions, int instruction, boolean reverse) {
@@ -91,6 +90,11 @@ public class AsmUtils {
 				.map(i-> reverse? instructions.size()-1 -i: i)
 				.filter(i ->instruction==instructions.get(i).getType())
 				.findFirst();
+	}
+	private static int[] findAllNodes(InsnList instructions, int instruction) {
+		return IntStream.range(0, instructions.size())
+				.filter(i ->instruction==instructions.get(i).getType())
+				.toArray();
 	}
 
 
