@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static info.vladkolm.utils.reflection.AsmUtils.*;
@@ -66,6 +67,10 @@ class MethodInfo {
         MethodNode methodNode = findMethodNode(implClass, getMethodName());
         FieldInsnNode instNode = (FieldInsnNode)AsmUtils.findFieldFromNode(methodNode);
         return instNode.name;
+    }
+    Optional<String> extractLocalNameFromLambda() {
+        MethodNode methodNode = findMethodNode(implClass, getMethodName());
+        return findVarableFromNode(methodNode).map(v->v.name);
     }
 
     static String internalNameOf(Serializable lambda) {

@@ -12,10 +12,10 @@ public class TestFields {
         String name = nameOf(() -> ClassWithMethods.msg);
         Assertions.assertEquals("msg", name);
     }
+
     @Test
     public void testNameOfField() {
         String name = nameOf((ClassWithMethods cwm) -> cwm.message);
         Assertions.assertEquals("message", name);
     }
-
 }

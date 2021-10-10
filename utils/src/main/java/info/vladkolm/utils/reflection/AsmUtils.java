@@ -12,8 +12,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.Method;
 import org.objectweb.asm.tree.*;
 
-import static org.objectweb.asm.tree.AbstractInsnNode.FIELD_INSN;
-import static org.objectweb.asm.tree.AbstractInsnNode.METHOD_INSN;
+import static org.objectweb.asm.tree.AbstractInsnNode.*;
 
 
 public class AsmUtils {
@@ -73,6 +72,9 @@ public class AsmUtils {
 			throw new ReflectUtilsException("Cannot find appropriate method");
 		}
 		return mn.instructions.get(found.getAsInt());
+	}
+	public static Optional<LocalVariableNode> findVarableFromNode(MethodNode mn) {
+		return mn.localVariables.stream().findFirst();
 	}
 
     public static MethodInsnNode findMethodInstructionNode(MethodNode mn, boolean reverse) {
