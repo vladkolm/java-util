@@ -1,0 +1,355 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Calibri Light";
+	panose-1:2 15 3 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:8.0pt;
+	margin-left:0in;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+h1
+	{mso-style-link:"Heading 1 Char";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#2F5496;
+	font-weight:normal;}
+h2
+	{mso-style-link:"Heading 2 Char";
+	margin-top:2.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#2F5496;
+	font-weight:normal;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+pre
+	{mso-style-link:"HTML Preformatted Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.Heading1Char
+	{mso-style-name:"Heading 1 Char";
+	mso-style-link:"Heading 1";
+	font-family:"Calibri Light",sans-serif;
+	color:#2F5496;}
+span.Heading2Char
+	{mso-style-name:"Heading 2 Char";
+	mso-style-link:"Heading 2";
+	font-family:"Calibri Light",sans-serif;
+	color:#2F5496;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-link:"HTML Preformatted";
+	font-family:"Courier New";}
+.MsoChpDefault
+	{font-family:"Calibri",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:107%;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:56.7pt 42.5pt 56.7pt 85.05pt;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink="#954F72" style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<h1>Overridden Functions in C++, Python, Java, and C#</h1>
+
+<h2><a href="https://www.codeproject.com/script/Membership/View.aspx?mid=69502"><span
+style='color:#2F5496;text-decoration:none'>Vladimir Kolmanovitch</span></a></h2>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>In October 2017 I have already <a
+href="https://www.codeproject.com/Tips/1208779/how-to-call-overridden-function-in-java-and-dotnet">written</a>
+an article to this theme. This article analyzed the problem in Java and .NET. Many
+things happened after that, so I’d like to return to this topic from a broader
+perspective.</p>
+
+<p class=MsoNormal>First, the problem:</p>
+
+<p class=MsoNormal>We have in some class a virtual function, which is
+overridden in the derived class. We have a reference to the object of derived
+class. How could we call the overridden method? Well, from the instance of
+derived class it’s quite trivial: just use super. - prefix for java or base. -
+prefix for C#. But how could we do it from the outer world?</p>
+
+<p class=MsoNormal>Let’s begin with the C++ example.</p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><span
+style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>class </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:teal'>A </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>{<br>
+</span><span style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>public</span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>:<br>
+    </span><span style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>virtual
+int </span><span style='font-size:10.0pt;font-family:"Courier New";color:#00627A'>HashCode</span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'> () {<br>
+        </span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#0033B3'>return </span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#1750EB'>1</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#080808'>;<br>
+    }<br>
+};<br>
+<br>
+</span><span style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>class
+</span><span style='font-size:10.0pt;font-family:"Courier New";color:teal'>B </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>: </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>public </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:teal'>A </span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>{<br>
+</span><span style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>public</span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>:<br>
+    </span><span style='font-size:10.0pt;font-family:"Courier New";color:#0033B3'>virtual
+int </span><span style='font-size:10.0pt;font-family:"Courier New";color:#00627A'>HashCode</span><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>() {<br>
+        </span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#0033B3'>return </span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#1750EB'>2</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#080808'>;<br>
+    }<br>
+};</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>&nbsp;</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><span
+style='font-size:10.0pt;font-family:"Courier New";color:#080808'>&nbsp;</span></p>
+
+<pre style='background:white'><span style='color:#0033B3'>using namespace </span><span
+style='color:teal'>std</span><span style='color:#080808'>;</span></pre><pre
+style='background:white'><span style='color:#0033B3'>using namespace </span><span
+style='color:teal'>std</span><span style='color:#080808'>;<br>
+</span><span style='color:teal'>B </span><span style='color:black'>b</span><span
+style='color:#080808'>;<br>
+</span><span style='color:black'>cout</span><span style='color:teal'>&lt;&lt;</span><span
+style='color:#067D17'>&quot;Overridden hashcode: &quot; </span><span
+style='color:teal'>&lt;&lt;</span><span style='color:black'>b</span><span
+style='color:#080808'>.HashCode()</span><span style='color:teal'>&lt;&lt;</span><span
+style='color:#080808'>endl;<br>
+</span><span style='color:black'>cout</span><span style='color:teal'>&lt;&lt;</span><span
+style='color:#067D17'>&quot;Original hashcode: &quot; </span><span
+style='color:teal'>&lt;&lt; </span><span style='color:black'>b</span><span
+style='color:#080808'>.</span><span style='color:teal'>A</span><span
+style='color:#080808'>::HashCode()</span><span style='color:teal'>&lt;&lt;</span><span
+style='color:#080808'>endl;</span></pre>
+
+<p class=MsoNormal>In C++ it’s a trivial thing: just use scope resolution
+operator and everything is OK.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>How could we do it in Python?</p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><b><span
+style='font-size:10.0pt;font-family:"Courier New";color:navy'>class </span></b><span
+style='font-size:10.0pt;font-family:"Courier New";color:black'>Base:<br>
+    </span><b><span style='font-size:10.0pt;font-family:"Courier New";
+color:navy'>def </span></b><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>HashCode(</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#94558D'>self</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>):<br>
+        </span><b><span style='font-size:10.0pt;font-family:"Courier New";
+color:navy'>return </span></b><span style='font-size:10.0pt;font-family:"Courier New";
+color:blue'>1<br>
+<br>
+<br>
+</span><b><span style='font-size:10.0pt;font-family:"Courier New";color:navy'>class
+</span></b><span style='font-size:10.0pt;font-family:"Courier New";color:black'>Derived(Base):<br>
+    </span><b><span style='font-size:10.0pt;font-family:"Courier New";
+color:navy'>def </span></b><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>HashCode(</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:#94558D'>self</span><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>):<br>
+        </span><b><span style='font-size:10.0pt;font-family:"Courier New";
+color:navy'>return </span></b><span style='font-size:10.0pt;font-family:"Courier New";
+color:blue'>2</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><span
+style='font-size:10.0pt;font-family:"Courier New";color:black'>obj = Derived()</span></p>
+
+<p class=MsoNormal style='margin-bottom:0in;line-height:normal;background:white'><span
+style='font-size:10.0pt;font-family:"Courier New";color:navy'>print</span><span
+style='font-size:10.0pt;font-family:"Courier New";color:black'>(</span><b><span
+style='font-size:10.0pt;font-family:"Courier New";color:green'>f&quot;Overridden:
+</span></b><b><span style='font-size:10.0pt;font-family:"Courier New";
+color:navy'>{</span></b><span style='font-size:10.0pt;font-family:"Courier New";
+color:black'>obj.HashCode()</span><b><span style='font-size:10.0pt;font-family:
+"Courier New";color:navy'>}</span></b><b><span style='font-size:10.0pt;
+font-family:"Courier New";color:green'>, original: </span></b><b><span
+style='font-size:10.0pt;font-family:"Courier New";color:navy'>{</span></b><span
+style='font-size:10.0pt;font-family:"Courier New";color:black'>Base.HashCode(obj)</span><b><span
+style='font-size:10.0pt;font-family:"Courier New";color:navy'>}</span></b><b><span
+style='font-size:10.0pt;font-family:"Courier New";color:green'>&quot;</span></b><span
+style='font-size:10.0pt;font-family:"Courier New";color:black'>)</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<pre style='background:white'><span style='color:black'>So, in Python it’s also trivial: just use original method as a regular function with the first derived object parameter.</span></pre><pre
+style='background:white'><span style='color:black'><br>
+It is not so trivial in C#, or in Java. In fact additional methods exist in Java and C# for a very special case: original value of object’s hash code: System.identityHashCode(obj) in java and</span><span
+style='color:#202020'>RuntimeHelpers</span><span style='color:#383838'>.</span><span
+style='color:#202020'>GetHashCode(</span><span style='color:black'>obj</span><span
+style='color:#202020'>)</span></pre><pre style='background:white'><span
+style='color:#202020'>&nbsp;</span></pre>
+
+<p class=MsoNormal>Let’s solve this problem in C#:</p>
+
+<pre style='background:white'><span style='color:#0F54D6'>public static </span><span
+style='color:#6B2FBA'>T</span><span style='color:#949494'>? </span><span
+style='color:#00855F'>CallOverriden</span><span style='color:#383838'>&lt;</span><span
+style='color:#6B2FBA'>T</span><span style='color:#383838'>&gt;(</span><span
+style='color:#0F54D6'>this object </span><span style='color:#383838'>obj, </span></pre><pre
+style='background:white'><span style='color:#383838'>        </span><span
+style='color:#6B2FBA'>Type </span><span style='color:#383838'>baseType, </span><span
+style='color:#0F54D6'>string </span><span style='color:#383838'>methodName, </span><span
+style='color:#6B2FBA'>Type </span><span style='color:#383838'>[] types, </span><span
+style='color:#0F54D6'>params object </span><span style='color:#383838'>[] args)<br>
+{<br>
+    </span><span style='color:#0F54D6'>var </span><span style='color:#383838'>methodInfo = baseType.</span><span
+style='color:#00855F'>GetMethod</span><span style='color:#383838'>(methodName, types);<br>
+    </span><span style='color:#6B2FBA'>Type </span><span style='color:#383838'>delegateType = </span><span
+style='color:#00855F'>GetDelegateType</span><span style='color:#383838'>(methodInfo);<br>
+    </span><span style='color:#0F54D6'>var </span><span style='color:#383838'>ptr = methodInfo.</span><span
+style='color:#0093A1'>MethodHandle</span><span style='color:#383838'>.</span><span
+style='color:#00855F'>GetFunctionPointer</span><span style='color:#383838'>();</span></pre><pre
+style='background:white'><span style='color:#383838'>    // </span><span
+style='color:black'><a
+href="https://stackoverflow.com/questions/2323401/how-to-call-base-base-method">How to call base.base.method()? - Stack Overflow</a></span><span
+style='color:#383838'><br>
+    </span><span style='color:#0F54D6'>var </span><span style='color:#383838'>o = </span><span
+style='color:#6B2FBA'>Activator</span><span style='color:#383838'>.</span><span
+style='color:#00855F'>CreateInstance</span><span style='color:#383838'>(delegateType, obj, ptr);<br>
+    </span><span style='color:#0F54D6'>return </span><span style='color:#383838'>(</span><span
+style='color:#6B2FBA'>T</span><span style='color:#383838'>)((</span><span
+style='color:#6B2FBA'>Delegate</span><span style='color:#383838'>)o).</span><span
+style='color:#00855F'>DynamicInvoke</span><span style='color:#383838'>(args)</span><span
+style='color:#202020'>!</span><span style='color:#383838'>;<br>
+}</span></pre><pre style='background:white'><span style='color:#383838'>&nbsp;</span></pre><pre
+style='text-align:justify;background:white'><span style='color:#383838'>// See: </span><span
+style='color:black'><a href="https://try2explore.com/questions/10351861">How to create a delegate from methodinfo</a></span></pre><pre
+style='background:white'><span style='color:#0F54D6'>private static </span><span
+style='color:#6B2FBA'>Type </span><span style='color:#00855F'>GetDelegateType</span><span
+style='color:#383838'>(</span><span style='color:#6B2FBA'>MethodInfo </span><span
+style='color:#383838'>method)<br>
+{<br>
+    </span><span style='color:#0F54D6'>return </span><span style='color:#6B2FBA'>Expression</span><span
+style='color:#383838'>.</span><span style='color:#00855F'>GetDelegateType</span><span
+style='color:#383838'>(method.</span><span style='color:#00855F'>GetParameters</span><span
+style='color:#383838'>()</span></pre><pre style='background:white'><span
+style='color:#383838'>        .</span><span style='color:#00855F'>Select</span><span
+style='color:#383838'>(p </span><span style='color:#202020'>=&gt; </span><span
+style='color:#383838'>p.</span><span style='color:#0093A1'>ParameterType</span><span
+style='color:#383838'>)<br>
+        .</span><span style='color:#00855F'>Concat</span><span
+style='color:#383838'>(</span><span style='color:#0F54D6'>new</span><span
+style='color:#383838'>[] {method.</span><span style='color:#0093A1'>ReturnType</span><span
+style='color:#383838'>})<br>
+        .</span><span style='color:#00855F'>ToArray</span><span
+style='color:#383838'>());<br>
+}</span></pre><pre style='background:white'><span style='color:#383838'>&nbsp;</span></pre><pre
+style='background:white'><span style='color:#383838'>I deleted error handling for the brevity.</span></pre><pre
+style='margin-top:12.0pt;background:white'><span style='color:black'>A call to</span><span
+style='color:#6B2FBA'> Delegate</span><span style='color:#383838'>.</span><span
+style='color:#00855F'>DynamicInvoke</span><span style='color:#00855F'> </span><span
+style='color:black'>in reflection-like manner enables to call the delegate.</span></pre><pre
+style='background:white'>&nbsp;</pre><pre style='background:white'>&nbsp;</pre><pre
+style='background:white'><span style='color:black'>In Java the solution is possible only starting from JDK-7:</span></pre><pre
+style='background:white'><b><span style='color:navy'>public static </span></b><span
+style='color:black'>Object invoke(Class&lt;?&gt; clazz, Method method, </span></pre><pre
+style='background:white'><span style='color:black'>        Object obj, Object ...args) </span><b><span
+style='color:navy'>throws </span></b><span style='color:black'>Throwable {<br>
+    Lookup lookup = <i>getLookup</i>(obj.getClass());<br>
+    MethodHandle methodHandle = lookup.findSpecial(clazz, method.getName(), </span></pre><pre
+style='background:white'><span style='color:black'>        MethodType.<i>methodType</i>(</span><b><span
+style='color:navy'>int</span></b><span style='color:black'>.</span><b><span
+style='color:navy'>class</span></b><span style='color:black'>), obj.getClass());<br>
+    </span><b><span style='color:navy'>return </span></b><span
+style='color:black'>methodHandle.invoke(obj);<br>
+}<br>
+<br>
+</span><b><span style='color:navy'>private static </span></b><span
+style='color:black'>Lookup getLookup(Class&lt;?&gt; objClass) </span></pre><pre
+style='background:white'><b><span style='color:navy'>        throws </span></b><span
+style='color:black'>IllegalAccessException, NoSuchMethodException, </span></pre><pre
+style='background:white'><span style='color:black'>        InvocationTargetException, InstantiationException {<br>
+    Lookup rootLookup = MethodHandles.<i>lookup</i>();<br>
+    </span><b><span style='color:navy'>try </span></b><span style='color:black'>{<br>
+        </span><i><span style='color:gray'>//This should work starting from JDK-9 and higher<br>
+        //call MethodHandles.privateLookupIn(objClass, rootLookup) through </span></i></pre><pre
+style='background:white'><i><span style='color:gray'>        //reflection<br>
+        </span></i><span style='color:black'>Method privateLookupMethod = </span></pre><pre
+style='background:white'><span style='color:black'>               MethodHandles.</span><b><span
+style='color:navy'>class</span></b><span style='color:black'>.getMethod(</span><b><span
+style='color:green'>&quot;privateLookupIn&quot;</span></b><span
+style='color:black'>, </span></pre><pre style='background:white'><span
+style='color:black'>               Class.</span><b><span style='color:navy'>class</span></b><span
+style='color:black'>, Lookup.</span><b><span style='color:navy'>class</span></b><span
+style='color:black'>);<br>
+        </span><b><span style='color:navy'>return </span></b><span
+style='color:black'>(Lookup)privateLookupMethod.invoke(</span><b><span
+style='color:navy'>null</span></b><span style='color:black'>, objClass, rootLookup);<br>
+     } </span><b><span style='color:navy'>catch </span></b><span
+style='color:black'>(NoSuchMethodException e) {<br>
+        </span><i><span style='color:gray'>//This is a fallback for JDK-7/8<br>
+        </span></i><span style='color:black'>Constructor&lt;?&gt; constructor = </span></pre><pre
+style='background:white'><span style='color:black'>               Lookup.</span><b><span
+style='color:navy'>class</span></b><span style='color:black'>.getDeclaredConstructor(Class.</span><b><span
+style='color:navy'>class</span></b><span style='color:black'>);<br>
+        constructor.setAccessible(</span><b><span style='color:navy'>true</span></b><span
+style='color:black'>);<br>
+        </span><b><span style='color:navy'>return </span></b><span
+style='color:black'>(Lookup) constructor.newInstance(objClass);<br>
+    }<br>
+}</span></pre>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+</body>
+
+</html>
