@@ -6,12 +6,25 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-class A {}
-class B {
+class A {
+    public static String MESSAGE = "Hello";
+    public String getMessage(String arg) {
+        return MESSAGE + arg;
+    }
+}
+class B extends A {
+    public static String DERIVED_MESSAGE = "Good Bye";
+
     @Override
     public int hashCode() {
         return 1;
     }
+
+    public String getMessage(String arg) {
+        return DERIVED_MESSAGE + arg;
+    }
+
+
 }
 
 public class ExactMethodInvokeTests {
@@ -28,4 +41,18 @@ public class ExactMethodInvokeTests {
         int invoke = (int)ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
         Assertions.assertEquals(System.identityHashCode(b), invoke);
     }
+    @Test
+    public void testStandardDerivedObject() {
+        B b = new B();
+        Assertions.assertEquals(B.DERIVED_MESSAGE, b.getMessage(""));
+    }
+    @Test
+    public void testOriginalMessageObject() throws Throwable {
+        B b = new B();
+        Method method = B.class.getMethod("getMessage", String.class);
+        String message = ExactMethodInvoke.invoke(A.class, method, b, "").toString();
+        Assertions.assertEquals(B.MESSAGE, message);
+    }
+
+
 }
