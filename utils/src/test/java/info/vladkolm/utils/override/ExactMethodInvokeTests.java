@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
+import static info.vladkolm.utils.reflection.MethodInfo.methodOf;
+
 class A {
     public static String MESSAGE = "Hello";
+    @SuppressWarnings("unused")
     public String getMessage(String arg) {
         return MESSAGE + arg;
     }
@@ -37,7 +40,7 @@ public class ExactMethodInvokeTests {
     @Test
     public void testOriginalHashCode() throws Throwable {
         B b = new B();
-        Method hashCodeMethod = Object.class.getMethod("hashCode");
+        Method hashCodeMethod = methodOf(Object::hashCode);
         int invoke = (int)ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
         Assertions.assertEquals(System.identityHashCode(b), invoke);
     }
@@ -49,7 +52,7 @@ public class ExactMethodInvokeTests {
     @Test
     public void testOriginalMessageObject() throws Throwable {
         B b = new B();
-        Method method = B.class.getMethod("getMessage", String.class);
+        Method method = methodOf(()->b.getMessage(""));
         String message = ExactMethodInvoke.invoke(A.class, method, b, "").toString();
         Assertions.assertEquals(B.MESSAGE, message);
     }

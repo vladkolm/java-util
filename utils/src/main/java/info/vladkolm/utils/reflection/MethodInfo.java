@@ -1,20 +1,19 @@
 package info.vladkolm.utils.reflection;
 
-import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import java.io.Serializable;
 import java.lang.invoke.SerializedLambda;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import static info.vladkolm.utils.reflection.AsmUtils.*;
 
 // See http://stackoverflow.com/questions/23861619/how-to-read-lambda-expression-bytecode-using-asm
-class MethodInfo {
+public class MethodInfo {
     final private Class<?> implClass;
-    final private Class<?> [] argTypes;
     final private Method implMethod;
 
     public static SerializedLambda getSerializedLambda(Serializable lambda){
@@ -38,7 +37,7 @@ class MethodInfo {
         implClass = ClassUtils.getClassFromStr(implClassName);
         String methodName = serializedLambda.getImplMethodName();
         String signature = serializedLambda.getImplMethodSignature();
-        argTypes =  getClassList(signature);
+        Class<?>[] argTypes = getClassList(signature);
         implMethod = ClassUtils.getMethod(implClass, methodName, argTypes).orElseThrow(ReflectUtilsException::new);
     }
 
