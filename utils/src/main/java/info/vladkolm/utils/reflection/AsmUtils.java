@@ -7,8 +7,7 @@ import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
+import org.objectweb.asm.*;
 import org.objectweb.asm.commons.Method;
 import org.objectweb.asm.tree.*;
 
@@ -27,11 +26,59 @@ public class AsmUtils {
 		if(methNode == null) throwException(clazz, methodName);
 		return getMethodFromNode(clazz.getCanonicalName(), methNode).orElseThrow(ReflectUtilsException::new);
 	}
+	public static class ClassLoaderEx extends ClassLoader {
+		private byte[] _bytes;
+
+		public ClassLoaderEx() {
+		}
+
+		public Class<?> defineClass(String name) {
+			return defineClass(name, _bytes,0, _bytes.length);
+		}
+		public void setBytes(byte[] _bytes) {
+			this._bytes = _bytes;
+		}
+	}
+
+	public static String point2Slash(String str) {
+		return str.replace('.', '/');
+	}
+	public static String getName(Class<?> clazz) {
+		return point2Slash(clazz.getName());
+	}
+
+	public static Class<?> duplicateClass(Class<?> prototype) {
+		ClassLoaderEx classLoader = new ClassLoaderEx();
+		return duplicateClass(classLoader, prototype);
+	}
+
+	public static Class<?> duplicateClass(ClassLoaderEx classLoader, Class<?> prototype) {
+        try {
+            Class<?>[] innerClasses = prototype.getDeclaredClasses();
+			for(Class<?> innerClass : innerClasses) {
+                duplicateClass(classLoader, innerClass);
+			}
+
+			InputStream stream = getClassAsStream(prototype);
+            byte[] byteArray = stream.readAllBytes();
+			classLoader.setBytes(byteArray);
+            return classLoader.defineClass(null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+	private static InputStream getClassAsStream(Class<?> prototype) {
+        return getClassAsStream(prototype.getName());
+	}
+
+	private static InputStream getClassAsStream(String className) {
+		className = "/"+ point2Slash(className)+".class";
+        return AsmUtils.class.getResourceAsStream(className);
+	}
 
 	private static InputStream getClassStream(Class<?> clazz) {
-        String className = clazz.getName();
-        String classResource = "/"+className.replaceAll("\\.", "/")+".class";
-        return clazz.getResourceAsStream(classResource);
+        return getClassAsStream(clazz.getName());
     }
 
 	private static ClassNode getClassNode(InputStream is) {
@@ -68,7 +115,7 @@ public class AsmUtils {
 
 	public static AbstractInsnNode findFieldFromNode(MethodNode mn) {
 		OptionalInt found = findNode(mn.instructions, FIELD_INSN, false);
-		if(!found.isPresent()) {
+		if(found.isEmpty()) {
 			throw new ReflectUtilsException("Cannot find appropriate method");
 		}
 		return mn.instructions.get(found.getAsInt());
@@ -115,18 +162,18 @@ public class AsmUtils {
 
 	
 	private static Class<?> getClass(Type type) {
-		switch(type.getSort()) {
-			case Type.BOOLEAN: return boolean.class;
-			case Type.CHAR: return char.class;
-			case Type.BYTE: return byte.class;
-			case Type.SHORT: return short.class;
-			case Type.INT: return int.class;
-			case Type.FLOAT: return float.class;
-			case Type.LONG: return long.class;
-			case Type.DOUBLE: return double.class; 
-			case Type.ARRAY: return getArray(type); 
-			default: return ClassUtils.getClass(type.getClassName());
-		}
+        return switch (type.getSort()) {
+            case Type.BOOLEAN -> boolean.class;
+            case Type.CHAR -> char.class;
+            case Type.BYTE -> byte.class;
+            case Type.SHORT -> short.class;
+            case Type.INT -> int.class;
+            case Type.FLOAT -> float.class;
+            case Type.LONG -> long.class;
+            case Type.DOUBLE -> double.class;
+            case Type.ARRAY -> getArray(type);
+            default -> ClassUtils.getClass(type.getClassName());
+        };
 	}
 
 	private static Class<?> getArray(Type type) {

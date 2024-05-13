@@ -41,21 +41,21 @@ public class ExactMethodInvokeTests {
     public void testOriginalHashCode() throws Throwable {
         B b = new B();
         Method hashCodeMethod = methodOf(Object::hashCode);
-        int invoke = (int)ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
+        int invoke = (int) ExactMethodInvoke.invoke(Object.class, hashCodeMethod, b);
         Assertions.assertEquals(System.identityHashCode(b), invoke);
     }
+
     @Test
     public void testStandardDerivedObject() {
         B b = new B();
         Assertions.assertEquals(B.DERIVED_MESSAGE, b.getMessage(""));
     }
+
     @Test
     public void testOriginalMessageObject() throws Throwable {
         B b = new B();
-        Method method = methodOf(()->b.getMessage(""));
+        Method method = methodOf(() -> b.getMessage(""));
         String message = ExactMethodInvoke.invoke(A.class, method, b, "").toString();
         Assertions.assertEquals(B.MESSAGE, message);
     }
-
-
 }
