@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Supplier;
 
 
-public class LazySingletonBillPughTests {
+public class BillPughSupplierTests {
     static class TClass {
         static int counter;
         TClass() {
