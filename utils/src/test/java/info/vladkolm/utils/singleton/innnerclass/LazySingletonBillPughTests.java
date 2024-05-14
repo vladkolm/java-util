@@ -1,6 +1,6 @@
 package info.vladkolm.utils.singleton.innnerclass;
 
-import info.vladkolm.utils.singleton.innerclass.ProxyCreator;
+import info.vladkolm.utils.singleton.innerclass.BillPughSupplierCreator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Supplier;
 
 
-public class LazySingletonTests {
+public class LazySingletonBillPughTests {
     static class TClass {
         static int counter;
         TClass() {
@@ -22,7 +22,7 @@ public class LazySingletonTests {
 
     @Test
     public void testSameInstance_Direct() {
-        Supplier<TClass> supplier = ProxyCreator.createProxy(TClass::new);
+        Supplier<TClass> supplier = BillPughSupplierCreator.createProxy(TClass::new);
         // Proxy is created, but the object is not
         Assertions.assertEquals(0, TClass.counter);
         TClass object1 = supplier.get();
@@ -36,8 +36,8 @@ public class LazySingletonTests {
 
     @Test
     public void testSameInstance_DifferentLoaders() {
-        Supplier<TClass> supplier1 = ProxyCreator.createProxy(TClass::new);
-        Supplier<TClass> supplier2 = ProxyCreator.createProxy(TClass::new);
+        Supplier<TClass> supplier1 = BillPughSupplierCreator.createProxy(TClass::new);
+        Supplier<TClass> supplier2 = BillPughSupplierCreator.createProxy(TClass::new);
         // Proxies are created, but the objects are not
         Assertions.assertEquals(0, TClass.counter);
         // Different proxies are different objects

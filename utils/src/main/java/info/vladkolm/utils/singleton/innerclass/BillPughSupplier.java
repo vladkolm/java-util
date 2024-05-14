@@ -3,10 +3,10 @@ package info.vladkolm.utils.singleton.innerclass;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"unused", "unchecked"})
-public class Proxy<T> implements Supplier<T> {
+public class BillPughSupplier<T> implements Supplier<T> {
     private static Supplier<?> _supplier;
 
-    public Proxy(Supplier<?> supplier)
+    public BillPughSupplier(Supplier<?> supplier)
     {
         _supplier = supplier;
     }

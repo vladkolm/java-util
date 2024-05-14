@@ -2,6 +2,8 @@ package info.vladkolm.utils.reflection;
 
 import org.objectweb.asm.Type;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -10,6 +12,60 @@ import java.util.List;
 import java.util.Optional;
 
 public class ClassUtils {
+    public static class ClassLoaderEx extends ClassLoader {
+        private byte[] _bytes;
+
+        public ClassLoaderEx() {
+        }
+
+        public Class<?> defineClass(String name) {
+            return defineClass(name, _bytes,0, _bytes.length);
+        }
+        public void setBytes(byte[] _bytes) {
+            this._bytes = _bytes;
+        }
+    }
+
+    public static String point2Slash(String str) {
+        return str.replace('.', '/');
+    }
+    public static String getName(Class<?> clazz) {
+        return point2Slash(clazz.getName());
+    }
+
+    public static Class<?> duplicateClass(Class<?> prototype) {
+        ClassLoaderEx classLoader = new ClassLoaderEx();
+        return duplicateClass(classLoader, prototype);
+    }
+
+    public static Class<?> duplicateClass(ClassLoaderEx classLoader, Class<?> prototype) {
+        try {
+            Class<?>[] innerClasses = prototype.getDeclaredClasses();
+            for(Class<?> innerClass : innerClasses) {
+                duplicateClass(classLoader, innerClass);
+            }
+
+            InputStream stream = getClassAsStream(prototype);
+            byte[] byteArray = stream.readAllBytes();
+            classLoader.setBytes(byteArray);
+            return classLoader.defineClass(null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static InputStream getClassAsStream(Class<?> prototype) {
+        return getClassAsStream(prototype.getName());
+    }
+
+    private static InputStream getClassAsStream(String className) {
+        className = "/"+ point2Slash(className)+".class";
+        return AsmUtils.class.getResourceAsStream(className);
+    }
+
+    static InputStream getClassStream(Class<?> clazz) {
+        return getClassAsStream(clazz.getName());
+    }
 
     private static void getAbstractMethods(Class<?> clazz, List<Method> methodList) {
         for (Method method : clazz.getDeclaredMethods()) {
@@ -26,7 +82,7 @@ public class ClassUtils {
     public static Method getAbstractMethod(Class<?> clazz) {
         List<Method> methodList = new ArrayList<>();
         getAbstractMethods(clazz, methodList);
-        if (methodList.size() == 0) return null;
+        if (methodList.isEmpty()) return null;
         if (methodList.size() != 1) throw new ReflectUtilsException("The class have more then one abstract method");
         return methodList.get(0);
     }

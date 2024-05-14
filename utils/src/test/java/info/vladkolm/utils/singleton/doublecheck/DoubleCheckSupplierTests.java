@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Supplier;
 
 
-public class LazySingletonTests {
+public class DoubleCheckSupplierTests {
     static class TClass {
     }
     static class TClass2 {
@@ -18,14 +18,14 @@ public class LazySingletonTests {
 
     @Test
     public void testSameInstance() {
-        Supplier<TClass> singleton = LazySingleton.createProxy(TClass::new);
+        Supplier<TClass> singleton = DoubleCheckSupplierCreator.createProxy(TClass::new);
         TClass t1 = singleton.get();
         TClass t2 = singleton.get();
         Assertions.assertSame(t1, t2);
     }
     @Test
     public void testSameInstance_ConstructorWithParameters() {
-        Supplier<TClass2> singleton = LazySingleton.createProxy(()->new TClass2(1));
+        Supplier<TClass2> singleton = DoubleCheckSupplierCreator.createProxy(()->new TClass2(1));
         TClass2 t1 = singleton.get();
         Assertions.assertSame(1, t1.index);
         TClass2 t2 = singleton.get();
