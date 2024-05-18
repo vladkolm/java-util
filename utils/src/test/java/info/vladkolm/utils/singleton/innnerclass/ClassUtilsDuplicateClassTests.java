@@ -11,7 +11,7 @@ public class ClassUtilsDuplicateClassTests {
     public void duplicateClassTest() {
         Class<?> clazz = ClassUtils.duplicateClass(BillPughSupplier.class);
         Assertions.assertNotNull(clazz);
-        Assertions.assertNotEquals(BillPughSupplier.class, clazz);
+        Assertions.assertNotSame(BillPughSupplier.class, clazz);
     }
 
     // Asserts recursively, that all internal classes have the same ClassLoader
