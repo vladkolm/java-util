@@ -15,11 +15,11 @@ public class ClassUtilsDuplicateClassTests {
     }
 
     // Asserts recursively, that all internal classes have the same ClassLoader
-    void assertRecursive(ClassLoader classLoader, Class<?> clazz){
+    void assertTheSameClassLoaderRecursive(ClassLoader classLoader, Class<?> clazz){
         Assertions.assertEquals(classLoader, clazz.getClassLoader());
         Class<?>[] innerClasses = clazz.getDeclaredClasses();
         for(Class<?> innerClass : innerClasses) {
-            assertRecursive(classLoader, innerClass);
+            assertTheSameClassLoaderRecursive(classLoader, innerClass);
         }
     }
 
@@ -28,6 +28,6 @@ public class ClassUtilsDuplicateClassTests {
         Class<?> clazz = ClassUtils.duplicateClass(BillPughSupplier.class);
         ClassLoader classLoader = clazz.getClassLoader();
         Assertions.assertSame(classLoader.getClass(), ClassLoaderEx.class);
-        assertRecursive(classLoader, clazz);
+        assertTheSameClassLoaderRecursive(classLoader, clazz);
     }
 }
