@@ -10,7 +10,6 @@ import static info.vladkolm.utils.reflection.MethodInfo.methodOf;
 
 class A {
     public static String MESSAGE = "Hello";
-    @SuppressWarnings("unused")
     public String getMessage(String arg) {
         return MESSAGE + arg;
     }

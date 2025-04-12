@@ -2,7 +2,7 @@ package info.vladkolm.utils.singleton.innerclass;
 
 import java.util.function.Supplier;
 
-@SuppressWarnings({"unused", "unchecked"})
+@SuppressWarnings("unchecked")
 public class BillPughSupplier<T> implements Supplier<T> {
     private static Supplier<?> _supplier;
 
